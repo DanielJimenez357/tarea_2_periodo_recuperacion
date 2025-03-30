@@ -40,3 +40,19 @@ def home_view(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+
+    from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .models import Message
+
+@login_required
+def chat_view(request):
+    if request.method == "POST":
+        content = request.POST.get("content")
+        if content:
+            Message.objects.create(user=request.user, content=content)
+        return redirect("chat")
+
+    messages = Message.objects.all().order_by("timestamp")
+    return render(request, "chat.html", {"messages": messages, "username": request.user.username})
