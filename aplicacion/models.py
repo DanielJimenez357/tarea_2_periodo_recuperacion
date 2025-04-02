@@ -6,5 +6,8 @@ class Message(models.Model):
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        app_label = 'aplicacion'
+
     def __str__(self):
-        return f'{self.user.username}: {self.content}'
+        return f"{self.user.username}: {self.content}"
