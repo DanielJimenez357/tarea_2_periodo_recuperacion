@@ -1,3 +1,10 @@
+"""
+Views module for the application.
+
+This module contains the view functions that handle HTTP requests and returns responses.
+Each view corresponds to a specific URL pattern.
+"""
+
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
@@ -5,6 +12,16 @@ from django.contrib.auth.decorators import login_required
 from .models import Message
 
 def login_view(request):
+    """
+    Handle user login functionality.
+
+    Args:
+        request: HttpRequest object containing user credentials
+
+    Returns:
+        HttpResponse: Redirects to home page on successful login,
+                     or renders login form with error message
+    """
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -17,6 +34,16 @@ def login_view(request):
     return render(request, 'login.html')
 
 def register_view(request):
+    """
+    Handle new user registration.
+
+    Args:
+        request: HttpRequest object containing username and passwords
+
+    Returns:
+        HttpResponse: Redirects to home page on successful registration,
+                     or renders registration form with error message
+    """
     if request.method == 'POST':
         username = request.POST['username']
         password1 = request.POST['password1']
@@ -44,6 +71,16 @@ def logout_view(request):
 
 @login_required
 def chat_view(request):
+    """
+    Handle chat messages and display chat interface.
+
+    Args:
+        request: HttpRequest object containing message content in POST
+
+    Returns:
+        HttpResponse: Renders chat page with all messages or
+                     redirects after posting new message
+    """
     if request.method == "POST":
         content = request.POST.get("content")
         if content:
